@@ -1,0 +1,3510 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "API Platform",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": ""
+        }
+    ],
+    "paths": {
+        "/api/categories": {
+            "get": {
+                "operationId": "api_categories_get_collection",
+                "tags": [
+                    "Category"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Category.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Category resources.",
+                "description": "Retrieves the collection of Category resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_categories_post",
+                "tags": [
+                    "Category"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Category resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a Category resource.",
+                "description": "Creates a Category resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Category resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Category.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "operationId": "api_categories_id_get",
+                "tags": [
+                    "Category"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a Category resource.",
+                "description": "Retrieves a Category resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_categories_id_delete",
+                "tags": [
+                    "Category"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Category resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the Category resource.",
+                "description": "Removes the Category resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_categories_id_patch",
+                "tags": [
+                    "Category"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the Category resource.",
+                "description": "Updates the Category resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Category resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Category"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/inventory_transactions": {
+            "get": {
+                "operationId": "api_inventory_transactions_get_collection",
+                "tags": [
+                    "InventoryTransaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "InventoryTransaction collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/InventoryTransaction.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of InventoryTransaction resources.",
+                "description": "Retrieves the collection of InventoryTransaction resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_inventory_transactions_post",
+                "tags": [
+                    "InventoryTransaction"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "InventoryTransaction resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryTransaction.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a InventoryTransaction resource.",
+                "description": "Creates a InventoryTransaction resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new InventoryTransaction resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryTransaction.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/inventory_transactions/{id}": {
+            "get": {
+                "operationId": "api_inventory_transactions_id_get",
+                "tags": [
+                    "InventoryTransaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "InventoryTransaction resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryTransaction.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a InventoryTransaction resource.",
+                "description": "Retrieves a InventoryTransaction resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "InventoryTransaction identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_inventory_transactions_id_delete",
+                "tags": [
+                    "InventoryTransaction"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "InventoryTransaction resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the InventoryTransaction resource.",
+                "description": "Removes the InventoryTransaction resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "InventoryTransaction identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_inventory_transactions_id_patch",
+                "tags": [
+                    "InventoryTransaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "InventoryTransaction resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryTransaction.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the InventoryTransaction resource.",
+                "description": "Updates the InventoryTransaction resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "InventoryTransaction identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated InventoryTransaction resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryTransaction"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/products": {
+            "get": {
+                "operationId": "api_products_get_collection",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Product resources.",
+                "description": "Retrieves the collection of Product resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_products_post",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Product resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a Product resource.",
+                "description": "Creates a Product resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Product resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "operationId": "api_products_id_get",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a Product resource.",
+                "description": "Retrieves a Product resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_products_id_delete",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the Product resource.",
+                "description": "Removes the Product resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_products_id_patch",
+                "tags": [
+                    "Product"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the Product resource.",
+                "description": "Updates the Product resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Product resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/product_reservations": {
+            "get": {
+                "operationId": "api_product_reservations_get_collection",
+                "tags": [
+                    "ProductReservation"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProductReservation collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductReservation.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of ProductReservation resources.",
+                "description": "Retrieves the collection of ProductReservation resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_product_reservations_post",
+                "tags": [
+                    "ProductReservation"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "ProductReservation resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductReservation.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a ProductReservation resource.",
+                "description": "Creates a ProductReservation resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new ProductReservation resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductReservation.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/product_reservations/{id}": {
+            "get": {
+                "operationId": "api_product_reservations_id_get",
+                "tags": [
+                    "ProductReservation"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProductReservation resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductReservation.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a ProductReservation resource.",
+                "description": "Retrieves a ProductReservation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ProductReservation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_product_reservations_id_delete",
+                "tags": [
+                    "ProductReservation"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ProductReservation resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the ProductReservation resource.",
+                "description": "Removes the ProductReservation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ProductReservation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_product_reservations_id_patch",
+                "tags": [
+                    "ProductReservation"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProductReservation resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductReservation.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the ProductReservation resource.",
+                "description": "Updates the ProductReservation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ProductReservation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated ProductReservation resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductReservation"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/users": {
+            "get": {
+                "operationId": "api_users_get_collection",
+                "tags": [
+                    "UserFixture"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UserFixture collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of UserFixture resources.",
+                "description": "Retrieves the collection of UserFixture resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_users_post",
+                "tags": [
+                    "UserFixture"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "UserFixture resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a UserFixture resource.",
+                "description": "Creates a UserFixture resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new UserFixture resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "operationId": "api_users_id_get",
+                "tags": [
+                    "UserFixture"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UserFixture resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a UserFixture resource.",
+                "description": "Retrieves a UserFixture resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UserFixture identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_users_id_delete",
+                "tags": [
+                    "UserFixture"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "UserFixture resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the UserFixture resource.",
+                "description": "Removes the UserFixture resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UserFixture identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_users_id_patch",
+                "tags": [
+                    "UserFixture"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UserFixture resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the UserFixture resource.",
+                "description": "Updates the UserFixture resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UserFixture identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated UserFixture resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/warehouses": {
+            "get": {
+                "operationId": "api_warehouses_get_collection",
+                "tags": [
+                    "Warehouse"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse collection",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Warehouse.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "member"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Warehouse resources.",
+                "description": "Retrieves the collection of Warehouse resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_warehouses_post",
+                "tags": [
+                    "Warehouse"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Warehouse resource created",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Warehouse.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Creates a Warehouse resource.",
+                "description": "Creates a Warehouse resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Warehouse resource",
+                    "content": {
+                        "application/ld+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Warehouse.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "/api/warehouses/{id}": {
+            "get": {
+                "operationId": "api_warehouses_id_get",
+                "tags": [
+                    "Warehouse"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse resource",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Warehouse.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Retrieves a Warehouse resource.",
+                "description": "Retrieves a Warehouse resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Warehouse identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_warehouses_id_delete",
+                "tags": [
+                    "Warehouse"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Warehouse resource deleted"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Removes the Warehouse resource.",
+                "description": "Removes the Warehouse resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Warehouse identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_warehouses_id_patch",
+                "tags": [
+                    "Warehouse"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse resource updated",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Warehouse.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error.jsonld"
+                                }
+                            },
+                            "application/problem+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "links": {}
+                    }
+                },
+                "summary": "Updates the Warehouse resource.",
+                "description": "Updates the Warehouse resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Warehouse identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Warehouse resource",
+                    "content": {
+                        "application/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Warehouse"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "parentCategory": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "Category.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "parentCategory": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "ConstraintViolation-json": {
+                "type": "object",
+                "description": "Unprocessable entity",
+                "deprecated": false,
+                "properties": {
+                    "status": {
+                        "default": 422,
+                        "example": 422,
+                        "type": "integer"
+                    },
+                    "violations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "propertyPath": {
+                                    "type": "string",
+                                    "description": "The property path of the violation"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "The message associated with the violation"
+                                }
+                            }
+                        }
+                    },
+                    "detail": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "title": {
+                        "readOnly": true,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "instance": {
+                        "readOnly": true,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "ConstraintViolation.jsonld-jsonld": {
+                "type": "object",
+                "description": "Unprocessable entity",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": 422,
+                        "example": 422,
+                        "type": "integer"
+                    },
+                    "violations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "propertyPath": {
+                                    "type": "string",
+                                    "description": "The property path of the violation"
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "The message associated with the violation"
+                                }
+                            }
+                        }
+                    },
+                    "detail": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "description": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "title": {
+                        "readOnly": true,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "instance": {
+                        "readOnly": true,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "description": "A representation of common errors.",
+                "deprecated": false,
+                "properties": {
+                    "title": {
+                        "readOnly": true,
+                        "description": "A short, human-readable summary of the problem.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "detail": {
+                        "readOnly": true,
+                        "description": "A human-readable explanation specific to this occurrence of the problem.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "status": {
+                        "type": "number",
+                        "examples": [
+                            404
+                        ],
+                        "default": 400
+                    },
+                    "instance": {
+                        "readOnly": true,
+                        "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "type": {
+                        "readOnly": true,
+                        "description": "A URI reference that identifies the problem type",
+                        "type": "string"
+                    }
+                }
+            },
+            "Error.jsonld": {
+                "type": "object",
+                "description": "A representation of common errors.",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "title": {
+                        "readOnly": true,
+                        "description": "A short, human-readable summary of the problem.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "detail": {
+                        "readOnly": true,
+                        "description": "A human-readable explanation specific to this occurrence of the problem.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "status": {
+                        "type": "number",
+                        "examples": [
+                            404
+                        ],
+                        "default": 400
+                    },
+                    "instance": {
+                        "readOnly": true,
+                        "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "type": {
+                        "readOnly": true,
+                        "description": "A URI reference that identifies the problem type",
+                        "type": "string"
+                    },
+                    "description": {
+                        "readOnly": true,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                }
+            },
+            "InventoryTransaction": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "warehouse_id": {
+                        "type": "integer"
+                    },
+                    "comment": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "warehouseId": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "InventoryTransaction.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "warehouse_id": {
+                        "type": "integer"
+                    },
+                    "comment": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "warehouseId": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Product": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "string"
+                    },
+                    "stockQuantity": {
+                        "type": "integer"
+                    },
+                    "SKU": {
+                        "type": "string"
+                    },
+                    "Category": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "sKU": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Product.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "string"
+                    },
+                    "stockQuantity": {
+                        "type": "integer"
+                    },
+                    "SKU": {
+                        "type": "string"
+                    },
+                    "Category": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ProductReservation": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "product_id": {
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "reserved_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "released_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "comment": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "reservedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "releasedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ProductReservation.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "product_id": {
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "reserved_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "released_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "comment": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "productId": {
+                        "type": "integer"
+                    },
+                    "reservedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "releasedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "User.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Warehouse": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "Warehouse": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "warehouse": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Warehouse.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": {
+                                        "type": "string"
+                                    },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http://www.w3.org/ns/hydra/core#"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "@vocab",
+                                    "hydra"
+                                ],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "@type": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "id": {
+                        "readOnly": true,
+                        "type": "integer"
+                    },
+                    "Warehouse": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "warehouse": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "responses": {},
+        "parameters": {},
+        "examples": {},
+        "requestBodies": {},
+        "headers": {},
+        "securitySchemes": {}
+    },
+    "security": [],
+    "tags": [
+        {
+            "name": "Category"
+        },
+        {
+            "name": "InventoryTransaction"
+        },
+        {
+            "name": "Product"
+        },
+        {
+            "name": "ProductReservation"
+        },
+        {
+            "name": "UserFixture"
+        },
+        {
+            "name": "Warehouse"
+        }
+    ],
+    "webhooks": {}
+}
