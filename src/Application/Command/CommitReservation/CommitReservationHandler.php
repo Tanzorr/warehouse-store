@@ -2,10 +2,12 @@
 
 namespace App\Application\Command\CommitReservation;
 
-use App\Entity\ProductReservation;
+use App\Domain\Reservation\ReservationStatus;
+use App\Infrastructure\Persistence\ReservationMapper;
 use App\Repository\ProductReservationRepository;
 use App\Service\StockAvailabilityService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -15,24 +17,34 @@ readonly class CommitReservationHandler
         private ProductReservationRepository $reservations,
         private StockAvailabilityService     $stockService,
         private EntityManagerInterface       $entityManager,
+        private ReservationMapper            $mapper,
+        private EventDispatcherInterface     $events,
     ) {}
 
     public function __invoke(CommitReservationCommand $command): void
     {
-        $reservation = $this->reservations->find((int) $command->reservationId);
+        $entity = $this->reservations->find((int) $command->reservationId);
 
-        if ($reservation === null) {
-            // Already deleted or never existed — idempotent, not an error.
+        if ($entity === null) {
+            return; // зникла або не існувала — ідемпотентно
+        }
+
+        $reservation = $this->mapper->toDomain($entity);
+
+        // Ідемпотентність — concern доставки повідомлення, не доменне правило.
+        // Повторна доставка вже закоммічденої резервації = тихий no-op.
+        if ($reservation->status() === ReservationStatus::Committed) {
             return;
         }
 
-        if ($reservation->getStatus() !== ProductReservation::STATUS_PENDING) {
-            // Already committed or cancelled — idempotent.
-            return;
-        }
+        $this->stockService->commitReservation($entity);
 
-        $this->stockService->commitReservation($reservation);
-        $reservation->setStatus(ProductReservation::STATUS_COMMITTED);
+        $reservation->commit();                              // домен: охорона переходу + запис події
+        $this->mapper->applyToEntity($reservation, $entity);
         $this->entityManager->flush();
+
+        foreach ($reservation->pullEvents() as $event) {
+            $this->events->dispatch($event);                 // ReservationCommitted полетів
+        }
     }
 }
