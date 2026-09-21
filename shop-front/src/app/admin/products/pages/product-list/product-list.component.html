@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Products</h1>
+  <a routerLink="new" class="btn btn-primary">New product</a>
+</div>
+
+@if (loading$ | async) {
+  <p>Loading...</p>
+}
+
+@if (productsResponse$ | async; as response) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>SKU</th>
+        <th>Purchase price</th>
+        <th>Sale price</th>
+        <th>Stock</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of response.data; track product.id) {
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.sku }}</td>
+          <td>{{ product.purchase_price }}</td>
+          <td>{{ product.sale_price }}</td>
+          <td>{{ product.stock }}</td>
+          <td>
+            <a [routerLink]="[product.id]" class="btn btn-sm btn-outline-secondary">Edit</a>
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="remove(product.id)">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    @for (page of pageNumbers(response.last_page); track page) {
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="response.current_page === page"
+        [class.btn-outline-primary]="response.current_page !== page"
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+    }
+  </div>
+}

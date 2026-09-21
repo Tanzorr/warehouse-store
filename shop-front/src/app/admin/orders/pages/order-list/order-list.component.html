@@ -1,0 +1,61 @@
+<h1>Orders</h1>
+
+<div class="filters mb-3">
+  <button
+    type="button"
+    class="btn btn-sm"
+    [class.btn-primary]="selectedStatus === null"
+    [class.btn-outline-primary]="selectedStatus !== null"
+    (click)="filterByStatus(null)"
+  >
+    All
+  </button>
+  @for (status of paymentStatuses; track status) {
+    <button
+      type="button"
+      class="btn btn-sm"
+      [class.btn-primary]="selectedStatus === status"
+      [class.btn-outline-primary]="selectedStatus !== status"
+      (click)="filterByStatus(status)"
+    >
+      {{ status }}
+    </button>
+  }
+</div>
+
+@if (loading$ | async) {
+  <p>Loading...</p>
+}
+
+@if (orders$ | async; as orders) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Status</th>
+        <th>Payment status</th>
+        <th>Total price</th>
+        <th>Created at</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of orders; track order.id) {
+        @if (selectedStatus === null || order.payment_status === selectedStatus) {
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user_id }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.payment_status }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>{{ order.created_at }}</td>
+            <td>
+              <a [routerLink]="[order.id]" class="btn btn-sm btn-outline-secondary">View</a>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+}

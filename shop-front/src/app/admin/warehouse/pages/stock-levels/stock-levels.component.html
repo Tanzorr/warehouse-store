@@ -1,0 +1,100 @@
+<h1>Stock levels</h1>
+
+@if (stockLevels$ | async; as stockLevels) {
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="filters mb-3">
+    <input class="form-control" formControlName="search" placeholder="Search product or SKU" />
+
+    <select class="form-select" formControlName="warehouseId">
+      <option [ngValue]="null">All warehouses</option>
+      @for (warehouse of uniqueWarehouses(allStockLevels); track warehouse.id) {
+        <option [ngValue]="warehouse.id">{{ warehouse.name }}</option>
+      }
+    </select>
+
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" formControlName="lowStockOnly" />
+      Low stock only
+    </label>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+
+  @if (loading$ | async) {
+    <p>Loading...</p>
+  }
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>SKU</th>
+        <th>Category</th>
+        <th>Warehouse</th>
+        <th>Total</th>
+        <th>Reserved</th>
+        <th>Available</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (level of pagedLevels(stockLevels); track level.productId + '-' + level.warehouseId) {
+        <tr [class.table-danger]="level.isLowStock">
+          <td>{{ level.productName }}</td>
+          <td>{{ level.sku }}</td>
+          <td>{{ level.categoryName }}</td>
+          <td>{{ level.warehouseName }}</td>
+          <td>{{ level.totalStock }}</td>
+          <td>{{ level.reservedStock }}</td>
+          <td>{{ level.availableStock }}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="openAdjust(level)">Adjust</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="openTransfer(level)">Transfer</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  @if (totalPages(stockLevels) > 1) {
+    <nav class="d-flex align-items-center justify-content-between">
+      <span class="text-muted">
+        Page {{ currentPage }} of {{ totalPages(stockLevels) }} ({{ stockLevels.length }} items)
+      </span>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1, totalPages(stockLevels))"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          [disabled]="currentPage === totalPages(stockLevels)"
+          (click)="goToPage(currentPage + 1, totalPages(stockLevels))"
+        >
+          Next
+        </button>
+      </div>
+    </nav>
+  }
+}
+
+@if (adjustTarget) {
+  <app-adjust-stock-modal
+    [productId]="adjustTarget.productId"
+    [warehouseId]="adjustTarget.warehouseId"
+    (closed)="closeAdjust($event)"
+  />
+}
+
+@if (transferTarget) {
+  <app-transfer-stock-modal
+    [productId]="transferTarget.productId"
+    [fromWarehouseId]="transferTarget.warehouseId"
+    [warehouses]="allStockLevels"
+    (closed)="closeTransfer($event)"
+  />
+}

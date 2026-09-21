@@ -1,0 +1,68 @@
+<a routerLink="/admin/orders" class="btn btn-link mb-3">&larr; Back to orders</a>
+
+@if (order$ | async; as order) {
+  <h1>Order #{{ order.id }}</h1>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <p><strong>User:</strong> {{ order.user_id }}</p>
+      <p><strong>Payment status:</strong> {{ order.payment_status }}</p>
+      <p><strong>Payment method:</strong> {{ order.payment_method ?? '-' }}</p>
+      <p><strong>Total price:</strong> {{ order.total_price }}</p>
+    </div>
+    <div class="col-md-6">
+      @if (order.payment_status === 'pending') {
+        <button type="button" class="btn btn-success" (click)="pay()">Mark as paid</button>
+      }
+    </div>
+  </div>
+
+  <h2>Items</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of order.orderItems; track item.id) {
+        <tr>
+          <td>{{ item.product_id }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <h2>Edit order</h2>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="mb-3">
+      <label class="form-label">Status</label>
+      <select class="form-select" formControlName="status">
+        @for (status of orderStatuses; track status) {
+          <option [value]="status">{{ status }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Shipping address</label>
+      <textarea class="form-control" formControlName="shipping_address"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Billing address</label>
+      <textarea class="form-control" formControlName="billing_address"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Notes</label>
+      <textarea class="form-control" formControlName="notes"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+}

@@ -1,0 +1,44 @@
+<h1>Reservations</h1>
+
+@if (loading$ | async) {
+  <p>Loading...</p>
+}
+
+@if (reservations$ | async; as reservations) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Items</th>
+        <th>Reserved at</th>
+        <th>Released at</th>
+        <th>Comment</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (reservation of reservations.items; track reservation.id) {
+        <tr>
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.status }}</td>
+          <td>
+            @for (item of reservation.items; track item.productId) {
+              <div>{{ item.name }} ({{ item.sku }}) &times; {{ item.amount }}</div>
+            }
+          </td>
+          <td>{{ reservation.reservedAt }}</td>
+          <td>{{ reservation.releasedAt }}</td>
+          <td>{{ reservation.comment }}</td>
+          <td>
+            @if (reservation.status === 'pending') {
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="cancel(reservation.id)">Cancel</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <p>Total: {{ reservations.total }}</p>
+}

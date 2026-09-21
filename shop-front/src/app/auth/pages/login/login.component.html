@@ -1,0 +1,26 @@
+<form class="login-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2 class="login-form__title">Вхід</h2>
+
+  <input
+    class="login-form__input"
+    type="email"
+    formControlName="email"
+    placeholder="Email"
+    autocomplete="username"
+  />
+  <input
+    class="login-form__input"
+    type="password"
+    formControlName="password"
+    placeholder="Пароль"
+    autocomplete="current-password"
+  />
+
+  @if (error()) {
+    <div class="login-form__error">{{ error() }}</div>
+  }
+
+  <button class="login-form__submit" type="submit" [disabled]="form.invalid || loading()">
+    {{ loading() ? 'Зачекайте…' : 'Увійти' }}
+  </button>
+</form>

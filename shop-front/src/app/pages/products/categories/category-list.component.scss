@@ -1,0 +1,15 @@
+.category-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+.category-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+  cursor: pointer;
+}

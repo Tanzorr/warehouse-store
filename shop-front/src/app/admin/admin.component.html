@@ -1,0 +1,18 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2 class="admin-sidebar__title">Admin</h2>
+    <nav>
+      <ul class="admin-sidebar__nav">
+        @for (link of navLinks; track link.url) {
+          <li>
+            <a [routerLink]="link.url" routerLinkActive="active">{{ link.label }}</a>
+          </li>
+        }
+      </ul>
+    </nav>
+    <button class="admin-sidebar__logout" type="button" (click)="logout()">Вийти</button>
+  </aside>
+  <main class="admin-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

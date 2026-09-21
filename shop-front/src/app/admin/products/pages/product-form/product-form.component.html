@@ -1,0 +1,52 @@
+<a routerLink="/admin/products" class="btn btn-link mb-3">&larr; Back to products</a>
+
+<h1>{{ isEditMode ? 'Edit product' : 'New product' }}</h1>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input class="form-control" formControlName="name" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" formControlName="description"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Category</label>
+    <select class="form-select" formControlName="category_id">
+      <option [ngValue]="null">-- select category --</option>
+      @if (categoriesResponse$ | async; as categoriesResponse) {
+        @for (category of categoriesResponse.data; track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      }
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">SKU</label>
+    <input class="form-control" formControlName="sku" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Purchase price</label>
+    <input type="number" step="0.01" class="form-control" formControlName="purchase_price" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Sale price</label>
+    <input type="number" step="0.01" class="form-control" formControlName="sale_price" />
+    @if (form.errors?.['salePriceTooLow']) {
+      <div class="text-danger">Sale price must be greater than purchase price.</div>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Stock</label>
+    <input type="number" class="form-control" formControlName="stock" />
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+</form>

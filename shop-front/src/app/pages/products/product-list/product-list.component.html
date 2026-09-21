@@ -1,0 +1,16 @@
+<app-search (search)="getSearchValue($event)" customClass="w-50 mt-3 mb-3"></app-search>
+
+@if (productsResponse$ | async; as productsResponse) {
+  <div class="row">
+    @for (product of productsResponse?.data; track product.id) {
+      <app-product [product]="product"></app-product>
+    }
+    <div class="m-3">
+      <app-pagination
+        [paginationLinks]="productsResponse.links"
+        (pageChange)="changePage($event)"
+      ></app-pagination>
+    </div>
+
+  </div>
+}

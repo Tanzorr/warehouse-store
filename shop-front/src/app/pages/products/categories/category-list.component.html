@@ -1,0 +1,25 @@
+@if (categories$ | async; as categories) {
+  <ul class="list-none space-y-2 category-list">
+    @for (category of categories; track category.id) {
+      <li
+        class="flex items-center gap-3 bg-white rounded-xl shadow-sm p-3 hover:bg-gray-50 transition"
+      >
+        <label
+          class="flex items-center gap-2 w-full cursor-pointer select-none"
+        >
+          <input
+            type="checkbox"
+            [checked]="selectedCategoryIds().includes(category.id)"
+            (change)="toggleCategory(category.id)"
+            class="accent-blue-600 w-5 h-5 border-gray-300 rounded focus:ring-2 focus:ring-blue-400"
+          />
+          <span class="text-gray-800 text-sm font-medium">
+            {{ category.name }}
+          </span>
+        </label>
+      </li>
+    }
+  </ul>
+} @else {
+  <p class="text-sm text-gray-500 italic">Loading categories...</p>
+}

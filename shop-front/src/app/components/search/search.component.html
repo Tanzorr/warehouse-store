@@ -1,0 +1,20 @@
+<form [formGroup]="searchForm" class="input-group" [ngClass]="customClass">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search..."
+    formControlName="query"
+    aria-label="Search input"
+  />
+
+  @if (searchForm.get('query')?.value) {
+    <input
+      type="button"
+      value="x"
+      class="btn btn-secondary"
+      (click)="clearSearch()"
+      aria-label="Clear search"
+      title="Clear"
+    >
+  }
+</form>
