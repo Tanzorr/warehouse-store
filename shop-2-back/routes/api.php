@@ -23,7 +23,6 @@ Route::middleware('jwt')->group(function () {
     Route::get('export-products', [ProductExportController::class, 'export']);
     Route::post('import-products', [ProductImportController::class, 'import']);
     Route::get('profit-report', [ProfitReportController::class, 'generateTotalReport']);
-    Route::get('annual-user-report/{userId}', [ProfitReportController::class, 'getAnnualUsersSpend']);
 
     Route::apiResource('orders', OrderController::class);
     Route::post('orders/{order}/pay', [OrderController::class, 'pay']);
