@@ -4,6 +4,20 @@
 
 Цей файл містить конкретні виправлення, знайдені під час аналізу кодової бази. Кожне виправлення є незалежним і може бути зроблено окремо. Проблеми відсортовані за пріоритетом.
 
+## Статус (2026-10-26)
+
+| Фікс | Стан |
+|---|---|
+| F1–F5, L1, L2, L4–L7, W1–W6 | ✅ у коді |
+| L3 | ✅ метод, маршрут `annual-user-report/{userId}` і Swagger-заглушку видалено |
+| W7 | 🟡 конфіг і тести зроблено; `curl`: анонім `401`, user-JWT `403`, admin-JWT `201`, `GET` `200`, CORS-preflight `200`. Нові тести W7 зелені |
+
+Відкрите, тому файл не в `done/`:
+
+- **4 API-тести `ProductReservationApiTest` падають і на HEAD** — `Item not found for "/api/products/N"`: дані з `EntityManager` тесту невидимі для запиту клієнта. До W7 не стосується, потрібна окрема таска.
+- **Psalm не встановлено** у `warehouses` — є `psalm.xml`, немає пакета в `composer.json`. Додати залежність — рішення власника (правило 4 `CLAUDE.md`).
+- **Не перевірено:** admin-JWT саме від `POST /api/login` `shop-2-back` (токен видано через lexik у `warehouses` тим самим секретом) і Adjust/Transfer/Cancel в адмінці `shop-front`.
+
 ---
 
 ## shop-front (Angular 20 + NgRx)
@@ -314,6 +328,54 @@ return $amount ?? 0;
 
 ---
 
+### FIX-W7 — `security.yaml`: запис через API Platform відкритий анонімам [Критична]
+
+**Файли:** `config/packages/security.yaml`, `tests/ProductReservationApiTest.php`
+
+**Проблема:** Останнє правило `access_control` — `{ path: ^/api, roles: PUBLIC_ACCESS }` без `methods`. Під нього потрапляє все, що не `^/api/warehouse`. Це порушує I-5 ([`ontology.md`](../../.ai/context/ontology.md)). Без токена доступні:
+
+| Ресурс | Методи |
+|---|---|
+| `/api/products`, `/api/categories`, `/api/warehouses` | `POST`, `PUT`, `PATCH`, `DELETE` |
+| `/api/product_reservations` | `POST`, `PATCH` (commit/cancel через workflow), `DELETE` |
+
+Жоден клієнт у ці ендпоінти не пише: `shop-front` ходить лише в `/api/warehouse/*`, `shop-2-back` — лише в `/webhook/order-paid` (свій секрет). Фікс ламає тільки тести.
+
+**Виправлення:**
+```yaml
+# До
+- { path: ^/api/warehouse, roles: PUBLIC_ACCESS, methods: [GET] }
+- { path: ^/api/warehouse, roles: ROLE_ADMIN, methods: [POST, PUT, PATCH, DELETE] }
+- { path: ^/api, roles: PUBLIC_ACCESS }
+
+# Після
+- { path: ^/api, roles: PUBLIC_ACCESS, methods: [GET] }
+- { path: ^/api, roles: ROLE_ADMIN }
+```
+
+**Кроки виконання** (з `warehouses/`, `alias wx='docker compose exec web'`):
+
+1. **Стан «до».** `docker compose up -d`, потім запит без токена — очікуємо `201`:
+   ```bash
+   curl -i -X POST localhost:8088/api/categories \
+     -H 'Content-Type: application/ld+json' -d '{"name":"fix-w7"}'
+   ```
+   Створену категорію видалити тим самим анонімним `DELETE`.
+2. **Конфіг.** Замінити правила в `security.yaml`, як вище.
+3. **Тести.** У `ProductReservationApiTest`:
+   - хелпер `adminToken()`: токен через lexik `JWTTokenManagerInterface::createFromPayload()` з `JwtClaimUser` і claim `role: admin`. Секрет у тесті не читається і не друкується;
+   - `'auth_bearer' => $this->adminToken()` у 7 наявних `POST`/`PATCH`;
+   - нові тести: анонімний `POST /api/categories` → `401`, анонімний `POST /api/product_reservations` → `401`, анонімний `GET /api/products` → `200`.
+4. **Перевірка.**
+   ```bash
+   wx php bin/phpunit && wx ./vendor/bin/psalm
+   ```
+   Повторити `curl` з кроку 1: без токена → `401`, з admin-JWT від `POST /api/login` (`shop-2-back`) → `201`. В адмінці `shop-front` перевірити Adjust/Transfer/Cancel — CORS-preflight має проходити, як і раніше.
+
+**Поза обсягом:** `security:` на операціях `#[ApiResource]` — [`graphql-lab.uk.md`](graphql-lab.uk.md), рівень 3.
+
+---
+
 ## Підсумок
 
 | ID | Серйозність | Проект | Файл |
@@ -322,6 +384,7 @@ return $amount ?? 0;
 | FIX-F2 | 🔴 Критична | shop-front | `search.component.ts` |
 | FIX-W1 | 🔴 Критична | warehouses | `InventoryTransaction.php` |
 | FIX-L1 | 🔴 Критична | shop-2-back | `PageController.php` |
+| FIX-W7 | 🔴 Критична | warehouses | `security.yaml` |
 | FIX-L2 | 🟠 Висока | shop-2-back | `AuthController.php` |
 | FIX-L3 | 🟠 Висока | shop-2-back | `ProfitReportController.php` |
 | FIX-L4 | 🟠 Висока | shop-2-back | `TagController.php`, `SharedAccessController.php` |
