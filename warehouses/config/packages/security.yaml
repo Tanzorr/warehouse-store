@@ -20,11 +20,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # Warehouse reads (queries, plan 06) stay public.
-        - { path: ^/api/warehouse, roles: PUBLIC_ACCESS, methods: [GET] }
-        # Warehouse commands (plan 05: adjust/transfer/cancel) require an admin JWT.
-        - { path: ^/api/warehouse, roles: ROLE_ADMIN, methods: [POST, PUT, PATCH, DELETE] }
-        - { path: ^/api, roles: PUBLIC_ACCESS }
+        # Reads stay public (plan 06 queries, API Platform collections).
+        - { path: ^/api, roles: PUBLIC_ACCESS, methods: [GET] }
+        # Every write requires an admin JWT (I-5). CORS preflight is answered by nelmio before the firewall.
+        - { path: ^/api, roles: ROLE_ADMIN }
 
 when@test:
     security:

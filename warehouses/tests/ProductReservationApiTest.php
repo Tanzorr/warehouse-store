@@ -10,8 +10,10 @@ use App\Entity\ProductReservation;
 use App\Entity\Warehouse;
 use App\Entity\Stock; // Assuming you have a Stock entity to manage inventory.
 use App\Entity\StockAvailability;
+use App\Security\JwtClaimUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -68,6 +70,7 @@ class ProductReservationApiTest extends ApiTestCase
 
         // 2. Action: Send a POST request to create a reservation.
         $response = static::createClient()->request('POST', '/api/product_reservations', [
+            'auth_bearer' => $this->adminToken(),
             'json' => [
                 'comment' => 'Reservation for upcoming event',
                 'items' => [
@@ -119,6 +122,7 @@ class ProductReservationApiTest extends ApiTestCase
 
         // 2. Action: Attempt to reserve more items than are available.
         static::createClient()->request('POST', '/api/product_reservations', [
+            'auth_bearer' => $this->adminToken(),
             'json' => [
                 'items' => [
                     [
@@ -155,6 +159,7 @@ class ProductReservationApiTest extends ApiTestCase
     {
         // 1. Action: Attempt to create a reservation with a product IRI that doesn't exist.
         static::createClient()->request('POST', '/api/product_reservations', [
+            'auth_bearer' => $this->adminToken(),
             'json' => [
                 'items' => [
                     [
@@ -196,6 +201,7 @@ class ProductReservationApiTest extends ApiTestCase
         $initialStock = $this->getStockAmount($product, $warehouse);
 
         $response = static::createClient()->request('POST', '/api/product_reservations', [
+            'auth_bearer' => $this->adminToken(),
             'json' => ['items' => [['product' => '/api/products/' . $product->getId(), 'amount' => 10]]],
             'headers' => ['Content-Type' => 'application/ld+json']
         ]);
@@ -206,6 +212,7 @@ class ProductReservationApiTest extends ApiTestCase
 
         // 2. Action: Send a PATCH request to change the status to "canceled".
         static::createClient()->request('PATCH', '/api/product_reservations/' . $reservationId, [
+            'auth_bearer' => $this->adminToken(),
             'json' => [
                 'status' => 'canceled',
             ],
@@ -240,6 +247,7 @@ class ProductReservationApiTest extends ApiTestCase
         $initialStock = $this->getStockAmount($product, $warehouse);
 
         $response = static::createClient()->request('POST', '/api/product_reservations', [
+            'auth_bearer' => $this->adminToken(),
             'json' => ['items' => [['product' => '/api/products/' . $product->getId(), 'amount' => 20]]],
             'headers' => ['Content-Type' => 'application/ld+json']
         ]);
@@ -250,6 +258,7 @@ class ProductReservationApiTest extends ApiTestCase
 
         // 2. Action: Send a PATCH request to change the status to "committed".
         static::createClient()->request('PATCH', '/api/product_reservations/' . $reservationId, [
+            'auth_bearer' => $this->adminToken(),
             'json' => [
                 'status' => 'committed',
             ],
@@ -268,7 +277,62 @@ class ProductReservationApiTest extends ApiTestCase
         $this->assertEquals($stockAfterReservation, $finalStock, "Stock should remain deducted after committing the reservation.");
     }
 
+    /**
+     * Anonymous writes to API Platform resources must be rejected (I-5).
+     *
+     * @throws TransportExceptionInterface
+     */
+    public function testAnonymousCreateCategoryIsUnauthorized(): void
+    {
+        static::createClient()->request('POST', '/api/categories', [
+            'json' => ['name' => 'Anonymous Category'],
+            'headers' => ['Content-Type' => 'application/ld+json'],
+        ]);
+
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    /**
+     * Anonymous reservations must be rejected (I-5).
+     *
+     * @throws TransportExceptionInterface
+     */
+    public function testAnonymousCreateReservationIsUnauthorized(): void
+    {
+        $product = $this->createProduct('Anonymous Product', 'SKU005', '10.00');
+
+        static::createClient()->request('POST', '/api/product_reservations', [
+            'json' => ['items' => [['product' => '/api/products/' . $product->getId(), 'amount' => 1]]],
+            'headers' => ['Content-Type' => 'application/ld+json'],
+        ]);
+
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    /**
+     * Reads stay public.
+     *
+     * @throws TransportExceptionInterface
+     */
+    public function testAnonymousListProductsIsAllowed(): void
+    {
+        static::createClient()->request('GET', '/api/products');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     // --- Helper Methods to create entities for tests ---
+
+    /**
+     * Helper to issue an admin JWT signed with the configured shared secret.
+     */
+    private function adminToken(): string
+    {
+        $user = new JwtClaimUser('admin@example.com', ['ROLE_USER', 'ROLE_ADMIN']);
+
+        return self::getContainer()->get(JWTTokenManagerInterface::class)
+            ->createFromPayload($user, ['role' => 'admin']);
+    }
 
     /**
      * Helper to create and persist a Category entity.
