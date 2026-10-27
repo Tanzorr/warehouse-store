@@ -1,0 +1,2648 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Shop API",
+        "description": "API documentation for Shop application",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log in a user",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User logged in successfully"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxIn0"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log out a user",
+                "operationId": "7b2bfa4aa2372ab1d9db7b0f40688581",
+                "responses": {
+                    "200": {
+                        "description": "User logged out successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get all categories",
+                "operationId": "getCategories",
+                "responses": {
+                    "200": {
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Create a new category",
+                "operationId": "createCategory",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCategoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "John Doe's category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get a single category",
+                "operationId": "getCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Update a category",
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCategoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Delete a category",
+                "operationId": "deleteCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/entities/media/attach": {
+            "post": {
+                "tags": [
+                    "EntityMedia"
+                ],
+                "summary": "Attach media to an entity",
+                "operationId": "attachMedia",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EntityMedia"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Media attached successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Media attached successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/entities/media/detach": {
+            "post": {
+                "tags": [
+                    "EntityMedia"
+                ],
+                "summary": "Detach media from an entity",
+                "operationId": "detachMedia",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EntityMedia"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Media detached successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Media detached successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/medias": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get a list of all media records",
+                "operationId": "getMedias",
+                "responses": {
+                    "200": {
+                        "description": "List of media records",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Media"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Upload a media file",
+                "operationId": "uploadMedia",
+                "requestBody": {
+                    "description": "Media file to upload",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "media"
+                                ],
+                                "properties": {
+                                    "media": {
+                                        "description": "The media file to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Media uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Media"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/medias/{media}": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get details of a specific media record",
+                "operationId": "getMedia",
+                "parameters": [
+                    {
+                        "name": "media",
+                        "in": "path",
+                        "description": "Media ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Media details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Media"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Delete a media record",
+                "operationId": "deleteMedia",
+                "parameters": [
+                    {
+                        "name": "media",
+                        "in": "path",
+                        "description": "Media ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Media record deleted successfully"
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get a list of orders",
+                "operationId": "getOrders",
+                "responses": {
+                    "200": {
+                        "description": "List of orders",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Order"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create a new order",
+                "operationId": "114b8825b604f826eb9123a99dd360c0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/{order}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get details of a specific order",
+                "operationId": "2264c8c11bfd386ac3cfc3ed5e792218",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update an order",
+                "operationId": "07963af8937ce86423453b12ee132643",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Delete an order",
+                "operationId": "e10a3f892d53bffd26b24df922c7f723",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pages": {
+            "get": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Get all pages",
+                "operationId": "c9a42b2888b677daaa6a6b9ac4ab0def",
+                "responses": {
+                    "200": {
+                        "description": "List of pages",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Page"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Create a new page",
+                "operationId": "createPage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Page created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "author_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Page title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "Page content"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid input data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pages/{pageId}": {
+            "get": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Get a page by ID",
+                "operationId": "getPage",
+                "parameters": [
+                    {
+                        "name": "pageId",
+                        "in": "path",
+                        "description": "ID of the page to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Page details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Update a page",
+                "operationId": "updatePage",
+                "parameters": [
+                    {
+                        "name": "pageId",
+                        "in": "path",
+                        "description": "ID of the page to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Page"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Page updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Delete a page",
+                "operationId": "deletePage",
+                "parameters": [
+                    {
+                        "name": "pageId",
+                        "in": "path",
+                        "description": "ID of the page to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Page deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get a list of products",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search products by name or description",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "iPhone"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Filter products by category ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    },
+                    {
+                        "name": "tag_ids[]",
+                        "in": "query",
+                        "description": "Filter products by tag IDs (can be multiple)",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "example": 5
+                            }
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagination page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "operationId": "7f8fb0635d90cd3d3b71c0f766058e46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreProductsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{product}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get details of a specific product",
+                "operationId": "94d47fbf9f2afd479316f6fd2385a464",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update a product",
+                "operationId": "03955529ca949b88cd99fe9b592561a3",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a product",
+                "operationId": "9e1b7e31c69cb39144f2772d10e7abb0",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/export-products": {
+            "get": {
+                "tags": [
+                    "Product Export"
+                ],
+                "summary": "Export products to Excel",
+                "operationId": "8fe48ef4403fa82a088b539826fed841",
+                "responses": {
+                    "200": {
+                        "description": "File successfully exported",
+                        "headers": {
+                            "Content-Disposition": {
+                                "description": "attachment; filename=products.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/import-products": {
+            "post": {
+                "tags": [
+                    "Product Import"
+                ],
+                "summary": "Import products from a CSV file",
+                "operationId": "1be00133164f69104a1219edd59e389d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Products imported successfully"
+                    },
+                    "400": {
+                        "description": "Invalid file format"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profit-report": {
+            "get": {
+                "tags": [
+                    "Profit report"
+                ],
+                "operationId": "b96c9a37ee73e91f25b487e04ec7cba9",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Start date for the profit report. Default: 6 months ago",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-08-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "End date for the profit report. Default: today",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-12-31"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Category ID for filtering. Optional",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "query",
+                        "description": "Product ID for filtering. Optional",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "10"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profit report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_profit": {
+                                            "type": "integer",
+                                            "example": 1500
+                                        },
+                                        "total_quantity": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "profit_by_category": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "category_name": {
+                                                        "type": "string",
+                                                        "example": "Electronics"
+                                                    },
+                                                    "category_profit": {
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/annual-user-report/{userId}": {
+            "get": {
+                "tags": [
+                    "Profit report"
+                ],
+                "operationId": "544f3ed51c6d61175ec1fa368c43e7fd",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user for the annual report",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Annual user report",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Report generated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shared-accesses": {
+            "get": {
+                "tags": [
+                    "SharedAccess"
+                ],
+                "summary": "Get a list of all shared access records",
+                "operationId": "getSharedAccess",
+                "responses": {
+                    "200": {
+                        "description": "List of shared access records",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SharedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "SharedAccess"
+                ],
+                "summary": "Create a new shared access record",
+                "operationId": "70049fda38d304de7b59603bb525fb3a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreSharedAccessRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Shared access record created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shared access record created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/shared-accesses/{id}": {
+            "put": {
+                "tags": [
+                    "SharedAccess"
+                ],
+                "summary": "Update a shared access record",
+                "operationId": "updateSharedAccess",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Shared access record ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSharedAccessRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Shared access record updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shared access record updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "SharedAccess"
+                ],
+                "summary": "Delete a shared access record",
+                "operationId": "deleteSharedAccess",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Shared access record ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Shared access record deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Shared access record deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tags": {
+            "get": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Retrieve a list of tags",
+                "operationId": "getTags",
+                "responses": {
+                    "200": {
+                        "description": "List of tags",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tag"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Create a new tag",
+                "operationId": "createTag",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Tag"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tag created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tag"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tags/{id}": {
+            "get": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Retrieve a specific tag by its ID",
+                "operationId": "getTagById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tag"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Update an existing tag",
+                "operationId": "updateTag",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Tag"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tag updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tag"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Delete a tag by its ID",
+                "operationId": "deleteTag",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Tag deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a list of users",
+                "operationId": "2f42d449c840d1aa8f0ddfd80937bf53",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "operationId": "f4fa27d4126548d2f850d12637f670fd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{user}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get details of a specific user",
+                "operationId": "0d35139a125d85966db2ce48cfbf3f53",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a user",
+                "operationId": "f977e2e72b6dd97fc45364ab215a33ad",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "operationId": "8e68752538e504286c0934fb8b4e1513",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/not-accessed/{entityType}/{entityId}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get users who do not have access to a specific entity",
+                "operationId": "8e09af483d8d8d43968ce446c1b44913",
+                "parameters": [
+                    {
+                        "name": "entityType",
+                        "in": "path",
+                        "description": "Entity type",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "entityId",
+                        "in": "path",
+                        "description": "Entity ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginUserRequest": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "admin@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Category 1"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "category description"
+                    },
+                    "is_shared": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCategoryRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Updated Category Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Updated description"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCategoryRequest": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Updated Category Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Updated description"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePageRequest": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "author_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Page title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Page content"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePageRequest": {
+                "properties": {
+                    "author_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Page title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Page content"
+                    }
+                },
+                "type": "object"
+            },
+            "Page": {
+                "required": [
+                    "id",
+                    "author_id",
+                    "title",
+                    "content",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "author_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Page title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Page content"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Facebook"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "description"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "sku": {
+                        "type": "string",
+                        "example": "SKU-12345"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "tags": {
+                        "description": "List of tags associated wiht the product",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "technology"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "StoreProductsRequest": {
+                "properties": {
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Facebook"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "My Facebook password"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "sku": {
+                        "type": "string",
+                        "example": "SKU-12345"
+                    },
+                    "tags": {
+                        "description": "List of tags associated wiht the product",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "technology"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "total_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "payment_status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "example": "cash"
+                    },
+                    "shipping_address": {
+                        "type": "string",
+                        "example": "123 Main St, New York, NY 10030"
+                    },
+                    "billing_address": {
+                        "type": "string",
+                        "example": "123 Main St, New York, NY 10030"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Please deliver before 5pm"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreOrderRequest": {
+                "required": [
+                    "user_id",
+                    "status",
+                    "total_price",
+                    "payment_status",
+                    "shipping_address",
+                    "items"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "total_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    },
+                    "payment_status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "example": "cash"
+                    },
+                    "shipping_address": {
+                        "type": "string",
+                        "example": "123 Main St, New York, NY 10030"
+                    },
+                    "billing_address": {
+                        "type": "string",
+                        "example": "123 Main St, New York, NY 10030"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Please deliver before 5pm"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "OrderItem": {
+                "required": [
+                    "product_id",
+                    "quantity",
+                    "price"
+                ],
+                "properties": {
+                    "product_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "SharedAccess": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "accessible_type": {
+                        "type": "string",
+                        "example": "CategoryModel"
+                    },
+                    "accessible_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreSharedAccessRequest": {
+                "properties": {
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "accessible_type": {
+                        "type": "string",
+                        "example": "CategoryModel"
+                    },
+                    "accessible_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateSharedAccessRequest": {
+                "required": [
+                    "user_id",
+                    "accessible_type",
+                    "accessible_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "accessible_type": {
+                        "type": "string",
+                        "example": "CategoryModel"
+                    },
+                    "accessible_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2028-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Media": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "example": "example.jpg"
+                    },
+                    "file_path": {
+                        "type": "string",
+                        "example": "/uploads/example.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "EntityMedia": {
+                "properties": {
+                    "media_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "mediable_type": {
+                        "type": "string",
+                        "example": "user"
+                    },
+                    "mediable_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "admin@example.com"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin User"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUserRequest": {
+                "required": [
+                    "email",
+                    "name",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "test#example.com"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Test User"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "Tag": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Technology"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-08-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTagRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "New Tag"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "JWT Bearer token authentication",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Operations related to user authentication"
+        },
+        {
+            "name": "Page",
+            "description": "Operations related to page management"
+        },
+        {
+            "name": "Products",
+            "description": "API Endpoints for managing products"
+        },
+        {
+            "name": "Orders",
+            "description": "API Endpoints for managing orders"
+        },
+        {
+            "name": "SharedAccess",
+            "description": "Operations related to shared access management"
+        },
+        {
+            "name": "Media",
+            "description": "Operations related to media management"
+        },
+        {
+            "name": "EntityMedia",
+            "description": "API Endpoints for managing entity media relations"
+        },
+        {
+            "name": "Category",
+            "description": "Category"
+        },
+        {
+            "name": "Product Export",
+            "description": "Product Export"
+        },
+        {
+            "name": "Product Import",
+            "description": "Product Import"
+        },
+        {
+            "name": "Profit report",
+            "description": "Profit report"
+        },
+        {
+            "name": "Tags",
+            "description": "Tags"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+# config/packages/workflow.yaml
+framework:
+  workflows:
+    product_reservation_workflow:
+      type: 'state_machine'
+      marking_store: # <--- Додано цю секцію
+        type: 'method' # <--- Вказує, що використовуємо геттери/сеттери сутності
+        property: 'status' # <--- Назва властивості в App\Entity\ProductReservation, де зберігається стан
+      supports:
+        - App\Entity\ProductReservation
+      initial_marking: 'pending'
+      places:
+        - 'pending'
+        - 'committed'
+        - 'cancelled'
+      transitions:
+        committed: # Назва переходу, яка співпадає з тим, що ви передаєте
+          from: 'pending'
+          to: 'committed'
+        cancel:
+          from: 'pending'
+          to: 'cancelled'

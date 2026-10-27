@@ -1,0 +1,13 @@
+<div class="container">
+  @if (product$ | async; as product) {
+    <h1>{{ product.name }}</h1>
+    <img
+      src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      alt="{{ product.name }}" class="img-fluid rounded border shadow-sm mb-3 w-50">
+    <p>{{ product.description }}</p>
+    <p>{{ product.sale_price }}</p>
+  } @else {
+    <h1>Loading...</h1>
+  }
+</div>
+

@@ -1,0 +1,41 @@
+<div class="app-modal-overlay" (click)="cancel()"></div>
+
+<div class="app-modal-card">
+  <h2>Transfer stock</h2>
+  <p>Product #{{ productId }} from warehouse #{{ fromWarehouseId }}</p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label class="form-label">Destination warehouse</label>
+      <select class="form-select" formControlName="toWarehouseId">
+        <option [ngValue]="null">-- select warehouse --</option>
+        @for (warehouse of warehouses; track warehouse.warehouseId) {
+          @if (warehouse.warehouseId !== fromWarehouseId) {
+            <option [ngValue]="warehouse.warehouseId">{{ warehouse.warehouseName }}</option>
+          }
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Quantity</label>
+      <input type="number" class="form-control" formControlName="quantity" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Comment</label>
+      <input class="form-control" formControlName="comment" />
+    </div>
+
+    @if (error()) {
+      <div class="alert alert-danger" role="alert">{{ error() }}</div>
+    }
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="cancel()" [disabled]="submitting()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitting()">
+        {{ submitting() ? 'Transferring…' : 'Transfer' }}
+      </button>
+    </div>
+  </form>
+</div>

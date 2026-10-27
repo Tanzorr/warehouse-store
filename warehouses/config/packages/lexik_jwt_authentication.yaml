@@ -1,0 +1,9 @@
+lexik_jwt_authentication:
+    # Symmetric HS256 with a secret shared with the Laravel shop back-end, so the
+    # token issued there is validated locally here (public_key is unused for HMAC
+    # and is auto-derived from the secret). See plan 11.
+    secret_key: '%env(JWT_SHARED_SECRET)%'
+    token_ttl: 28800            # 8 hours, mirrors the Laravel "exp" claim
+    user_id_claim: email        # identifier claim present in the Laravel-issued token
+    encoder:
+        signature_algorithm: HS256

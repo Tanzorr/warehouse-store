@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="mobileMenuToggle()"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        @for (link of navLinks; track link.label) {
+          <li class="nav-item">
+            <a
+              routerLinkActive="active"
+              class="nav-link"
+              [routerLink]="link.url"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+      <!--    <ul class="navbar-nav">-->
+      <!--      <li *ngIf="isLoggedIn" class="nav-item">-->
+      <!--        <a routerLinkActive="active" class="nav-link" (click)="logout()">Log Out</a>-->
+      <!--      </li>-->
+      <!--      <li *ngIf="!isLoggedIn" class="nav-item">-->
+      <!--        <a routerLinkActive="active" class="nav-link" routerLink="/login">Log In</a>-->
+      <!--      </li>-->
+      <!--    </ul>-->
+    </div>
+  </div>
+</nav>

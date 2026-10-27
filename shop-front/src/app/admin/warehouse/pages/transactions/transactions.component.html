@@ -1,0 +1,50 @@
+<h1>Inventory transactions</h1>
+
+@if (loading$ | async) {
+  <p>Loading...</p>
+}
+
+@if (transactions$ | async; as transactions) {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Warehouse</th>
+        <th>Quantity</th>
+        <th>Type</th>
+        <th>Comment</th>
+        <th>User</th>
+        <th>Created at</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (transaction of transactions.items; track transaction.id) {
+        <tr>
+          <td>{{ transaction.id }}</td>
+          <td>{{ transaction.productName }}</td>
+          <td>{{ transaction.warehouseName }}</td>
+          <td>{{ transaction.quantity }}</td>
+          <td>{{ transaction.entityType }}</td>
+          <td>{{ transaction.comment }}</td>
+          <td>{{ transaction.userId }}</td>
+          <td>{{ transaction.createdAt }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    @for (page of pageNumbers(transactions.total); track page) {
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="currentPage === page"
+        [class.btn-outline-primary]="currentPage !== page"
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+    }
+  </div>
+}
